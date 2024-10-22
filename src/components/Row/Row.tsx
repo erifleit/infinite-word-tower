@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import { useRow } from "./useRow";
 import {
   BORDER_RADIUS,
@@ -29,6 +27,7 @@ const style: Record<string, React.CSSProperties> = {
     borderStyle: "solid",
     borderRadius: BORDER_RADIUS,
     outline: "none",
+    fontSize: 24,
   },
   inputError: {
     borderColor: RED,
@@ -73,6 +72,7 @@ export const Row = ({
           <input
             key={index}
             type="text"
+            inputMode="text"
             maxLength={1}
             value={val}
             onChange={(e) => handleChange(e.target.value, index)}
