@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getWord } from "../../api";
+import { isMobile } from "react-device-detect";
 
 export const useRowTower = () => {
   const [numOfRows, setNumOfRows] = useState(1);
@@ -15,10 +16,12 @@ export const useRowTower = () => {
   };
 
   useEffect(() => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "smooth",
-    });
+    if (!isMobile) {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   }, [numOfRows]);
 
   const handleRowFilled = async (word: string) => {

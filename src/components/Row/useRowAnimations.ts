@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from "react";
-import { isAlphabeticCharacter } from "../../utils";
+import { useState, useEffect } from "react";
 
 type UseRowAnimations = {
   hasError: boolean;
