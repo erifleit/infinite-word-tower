@@ -1,7 +1,7 @@
-import { useContext, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { getWord } from "../../api";
 import { isMobile } from "react-device-detect";
-import { GameContext } from "../../context/GameContext";
+import { useGameStore } from "../../store";
 
 export const useTower = () => {
   const {
@@ -13,7 +13,7 @@ export const useTower = () => {
     setError,
     loading,
     setLoading,
-  } = useContext(GameContext);
+  } = useGameStore();
 
   const lastWord = useMemo(() => words[words.length - 1], [words]);
 
@@ -23,14 +23,12 @@ export const useTower = () => {
 
       // Detect alphabetic characters (a-z)
       if (/^[a-zA-Z]$/.test(key) && currentWord.length < 5) {
-        // console.log(`Alphabetic key pressed: ${key}`);
-        setCurrentWord((word) => `${word}${key.toUpperCase()}`);
+        setCurrentWord(`${currentWord}${key.toUpperCase()}`);
       }
 
       // Detect backspace key
       if (key === "Backspace" && currentWord.length) {
-        // console.log("Backspace pressed");
-        setCurrentWord((word) => word.slice(0, word.length - 1));
+        setCurrentWord(currentWord.slice(0, currentWord.length - 1));
         if (error) setError(undefined);
       }
     };
@@ -67,7 +65,7 @@ export const useTower = () => {
 
       const valid = await getWord(word);
       if (valid) {
-        setWords((words) => [...words, word]);
+        setWords([...words, word]);
         setCurrentWord("");
       } else {
         setError("Not a real word!");
