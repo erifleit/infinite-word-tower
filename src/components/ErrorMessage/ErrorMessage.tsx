@@ -1,7 +1,4 @@
-type ErrorMessageProps = {
-  message?: string;
-  loading?: boolean;
-};
+import { useGameStore } from "../../store";
 
 const ErrorMessageStyle = {
   color: "red",
@@ -12,10 +9,11 @@ const LoadingMessageStyle = {
   height: 40,
 };
 
-export const ErrorMessage = ({ message, loading }: ErrorMessageProps) => {
+export const ErrorMessage = () => {
+  const { loading, error } = useGameStore();
   return loading ? (
     <div style={LoadingMessageStyle}>Checking 🧐</div>
   ) : (
-    <div style={ErrorMessageStyle}>{message}</div>
+    <div style={ErrorMessageStyle}>{error}</div>
   );
 };

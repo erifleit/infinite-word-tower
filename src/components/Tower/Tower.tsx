@@ -3,7 +3,11 @@ import { useTower } from "./useTower";
 import { ErrorMessage } from "../ErrorMessage";
 
 export const Tower = () => {
-  const { error, loading, words } = useTower();
+  const { error, words } = useTower();
+
+  // const words = Array.from({ length: 20 }).map(() => {
+  //   return "HELLO";
+  // });
 
   return (
     <div style={{ paddingTop: 100 }}>
@@ -27,7 +31,7 @@ export const Tower = () => {
           </div>
         );
       })}
-      <ErrorMessage message={error} loading={loading} />
+      <ErrorMessage />
     </div>
   );
 };

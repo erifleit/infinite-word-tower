@@ -40,12 +40,7 @@ const style: Record<string, React.CSSProperties> = {
   },
 };
 
-export const RowV2 = ({
-  disabled,
-  value,
-  hasError = false,
-  rowIndex,
-}: RowProps) => {
+export const RowV2 = ({ disabled, value, hasError = false }: RowProps) => {
   const { shake, animate, hop } = useRowAnimations({ disabled, hasError });
 
   const rowValues = useMemo(
@@ -65,7 +60,7 @@ export const RowV2 = ({
       }}
       className={shake ? "shake" : ""}
     >
-      <div
+      {/* <div
         style={{
           marginTop: MARGIN * 4,
           marginRight: MARGIN * 2,
@@ -74,7 +69,7 @@ export const RowV2 = ({
         className={animate ? "slide-in" : ""}
       >
         {rowIndex + 1}
-      </div>
+      </div> */}
       {rowValues.map((val, index) => (
         <div className={hop ? `hop-effect-${index}` : ""} key={index}>
           <div
