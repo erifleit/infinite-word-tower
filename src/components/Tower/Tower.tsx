@@ -6,7 +6,7 @@ export const Tower = () => {
   const { error, loading, words } = useTower();
 
   return (
-    <div>
+    <div style={{ paddingTop: 100 }}>
       {words.map((value, index) => {
         return (
           <div
