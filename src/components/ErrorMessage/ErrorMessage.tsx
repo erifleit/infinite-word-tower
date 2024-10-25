@@ -1,5 +1,6 @@
 type ErrorMessageProps = {
   message?: string;
+  loading?: boolean;
 };
 
 const ErrorMessageStyle = {
@@ -7,6 +8,14 @@ const ErrorMessageStyle = {
   height: 40,
 };
 
-export const ErrorMessage = ({ message }: ErrorMessageProps) => {
-  return <div style={ErrorMessageStyle}>{message}</div>;
+const LoadingMessageStyle = {
+  height: 40,
+};
+
+export const ErrorMessage = ({ message, loading }: ErrorMessageProps) => {
+  return loading ? (
+    <div style={LoadingMessageStyle}>Checking 🧐</div>
+  ) : (
+    <div style={ErrorMessageStyle}>{message}</div>
+  );
 };
