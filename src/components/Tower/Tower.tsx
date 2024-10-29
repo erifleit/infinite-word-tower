@@ -3,7 +3,7 @@ import { useTower } from "./useTower";
 import { Message } from "../Message";
 
 export const Tower = () => {
-  const { error, words } = useTower();
+  const { error, words, keyboardVisible } = useTower();
 
   // const words = Array.from({ length: 20 }).map(() => {
   //   return "HELLO";
@@ -11,12 +11,8 @@ export const Tower = () => {
 
   return (
     <div
-      style={{
-        // backgroundColor: "red",
-        width: "100%",
-        maxWidth: 700,
-      }}
       className="tower"
+      style={keyboardVisible ? { paddingBottom: 220 } : {}}
     >
       {words.map((value, index) => {
         return (

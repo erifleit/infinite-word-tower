@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useGameStore, useModalState } from "../../store";
+import { useGameStore, useUIState } from "../../store";
 
 export const useHeader = () => {
   const [bestScore, setBestScore] = useState<number>(() => {
@@ -8,7 +8,7 @@ export const useHeader = () => {
   });
 
   const { words } = useGameStore();
-  const { openModal } = useModalState();
+  const { openModal, setKeyboardVisible, keyboardVisible } = useUIState();
 
   useEffect(() => {
     if (words.length > bestScore) {
@@ -17,9 +17,20 @@ export const useHeader = () => {
     }
   }, [words, bestScore]);
 
+  const showKeyboard = () => {
+    setKeyboardVisible(true);
+  };
+
+  const hideKeyboard = () => {
+    setKeyboardVisible(false);
+  };
+
   return {
     score: words.length,
     bestScore,
     openModal,
+    showKeyboard,
+    hideKeyboard,
+    keyboardVisible,
   };
 };

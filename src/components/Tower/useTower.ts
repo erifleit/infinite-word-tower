@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { getWord } from "../../api";
 import { isMobile } from "react-device-detect";
-import { useGameStore, useModalState } from "../../store";
+import { useGameStore, useUIState } from "../../store";
 import { getMessage, getQueryParam } from "../../utils";
 import { ERRORS, MESSAGES } from "../../constants";
 
@@ -17,7 +17,7 @@ export const useTower = () => {
     setDisplayMessage,
   } = useGameStore();
 
-  const { isModalOpen } = useModalState();
+  const { isModalOpen, keyboardVisible } = useUIState();
 
   const lastWord = useMemo(() => words[words.length - 1], [words]);
 
@@ -125,5 +125,6 @@ export const useTower = () => {
   return {
     words: [...words, currentWord],
     error,
+    keyboardVisible,
   };
 };

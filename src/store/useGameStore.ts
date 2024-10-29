@@ -21,7 +21,12 @@ export const useGameStore = create<GameState>((set) => ({
   setWords: (words) => set({ words }),
 
   currentWord: "",
-  setCurrentWord: (word) => set({ currentWord: word }),
+  setCurrentWord: (word) => {
+    if (word.length > 5) {
+      return;
+    }
+    set({ currentWord: word });
+  },
 
   error: undefined,
   setError: (error) => set({ error }),

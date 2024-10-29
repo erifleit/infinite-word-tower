@@ -1,8 +1,15 @@
-import { useModalState } from "../../store";
+import { useUIState } from "../../store";
 import { useHeader } from "./useHeader";
 
 export const Header = () => {
-  const { score, bestScore, openModal } = useHeader();
+  const {
+    score,
+    bestScore,
+    openModal,
+    showKeyboard,
+    hideKeyboard,
+    keyboardVisible,
+  } = useHeader();
 
   return (
     <div className="Header">
@@ -11,8 +18,11 @@ export const Header = () => {
         <div className="Score">
           <div>Score: {score}</div>
           <div>Best Score: {bestScore}</div>
-          <div className="options" onClick={openModal}>
-            Options
+          <div
+            className="options"
+            onClick={keyboardVisible ? hideKeyboard : showKeyboard}
+          >
+            {keyboardVisible ? "hide keyboard" : "show keyboard"}
           </div>
         </div>
       </div>

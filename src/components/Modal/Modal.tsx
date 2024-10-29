@@ -1,8 +1,8 @@
 import React from "react";
-import { useModalState } from "../../store";
+import { useUIState } from "../../store";
 
 export const Modal = () => {
-  const { isModalOpen, closeModal } = useModalState();
+  const { isModalOpen, closeModal } = useUIState();
 
   return isModalOpen ? (
     <div className="modal-overlay">

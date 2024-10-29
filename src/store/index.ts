@@ -1,2 +1,2 @@
 export * from "./useGameStore";
-export * from "./useModalState";
+export * from "./useUIState";
