@@ -9,6 +9,7 @@ import {
 } from "../../constants";
 import { useRowAnimations } from "./useRowAnimations";
 import { isMobile } from "react-device-detect";
+import { useUIState } from "../../store";
 
 interface RowProps {
   rowIndex: number;
@@ -42,6 +43,8 @@ const style: Record<string, React.CSSProperties> = {
 
 export const RowV2 = ({ disabled, value, hasError = false }: RowProps) => {
   const { shake, animate, hop } = useRowAnimations({ disabled, hasError });
+
+  const { keyboardVisible, setKeyboardVisible } = useUIState();
 
   const rowValues = useMemo(
     () =>
@@ -79,6 +82,9 @@ export const RowV2 = ({ disabled, value, hasError = false }: RowProps) => {
               ...(disabled ? style.disabledInput : {}),
             }}
             className={animate ? "slide-in" : ""}
+            onClick={() => {
+              setKeyboardVisible(!keyboardVisible);
+            }}
           >
             {val}
           </div>
