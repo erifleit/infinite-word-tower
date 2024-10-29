@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .Header {
@@ -9,7 +11,7 @@
   transform: translateX(-50%);
   width: 100%;
   margin: 0; /* Remove default margin */
-  max-width: 260px;
+  max-width: 700px;
 }
 
 .Padding {
@@ -20,14 +22,42 @@
   ); /* Adjust colors as needed */
   width: 100%;
   margin: 0; /* Remove default margin */
-  height: 50px;
+  height: 30px;
 }
 
 .Title {
   height: 100%;
-  font-size: 1.5em;
+  font-size: 2em;
   padding: 20px 0px 10px 0;
   background-color: white;
+}
+
+.Score {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: white;
+  width: 100%;
+}
+
+.tower {
+  padding-top: 120px;
+}
+.options {
+  color: blue;
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  .Title {
+    font-size: 3em;
+  }
+  .Score {
+    font-size: 2em;
+  }
+  .tower {
+    padding-top: 150px;
+  }
 }
 
 .TitleContainer {
@@ -105,4 +135,32 @@
 .hop-effect-4 {
   animation: waveHop 0.3s ease forwards;
   animation-delay: 0.4s;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button {
+  margin-top: 20px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
 }

@@ -1,5 +1,5 @@
 import "./App.css";
-import { Tower } from "./components";
+import { Modal, Tower } from "./components";
 import { Header } from "./components/Header";
 
 const App = () => {
@@ -7,6 +7,7 @@ const App = () => {
     <div className="App">
       <Header />
       <Tower />
+      {/* <Modal /> */}
     </div>
   );
 };

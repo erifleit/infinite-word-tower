@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { ERRORS, MESSAGES } from "../constants";
 
 type GameState = {
   words: string[];
@@ -6,9 +7,11 @@ type GameState = {
   currentWord: string;
   setCurrentWord: (word: string) => void;
   error: string | undefined;
-  setError: (error: string | undefined) => void;
-  loading: boolean;
-  setLoading: (loading: boolean) => void;
+  setError: (error: ERRORS | undefined) => void;
+  displayMessage: boolean;
+  setDisplayMessage: (loading: boolean) => void;
+  message: MESSAGES | "";
+  setMessage: (message: MESSAGES) => void;
   score: number;
   setScore: (score: number) => void;
 };
@@ -23,8 +26,11 @@ export const useGameStore = create<GameState>((set) => ({
   error: undefined,
   setError: (error) => set({ error }),
 
-  loading: false,
-  setLoading: (loading) => set({ loading }),
+  displayMessage: false,
+  setDisplayMessage: (displayMessage) => set({ displayMessage }),
+
+  message: "",
+  setMessage: (message: MESSAGES) => set({ message }),
 
   score: 0,
   setScore: (score) => set({ score }),

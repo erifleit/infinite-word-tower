@@ -1,3 +1,4 @@
 export * from "./Row/Row";
 export * from "./Tower";
-export * from "./ErrorMessage";
+export * from "./Message";
+export * from "./Modal";

@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import {
   BORDER_RADIUS,
-  BOX_WIDTH,
   GREEN,
   LIGHT_GREEN,
   LIGHT_RED,
@@ -9,6 +8,7 @@ import {
   RED,
 } from "../../constants";
 import { useRowAnimations } from "./useRowAnimations";
+import { isMobile } from "react-device-detect";
 
 interface RowProps {
   rowIndex: number;
@@ -19,16 +19,16 @@ interface RowProps {
 
 const style: Record<string, React.CSSProperties> = {
   inputStyle: {
-    width: BOX_WIDTH,
-    height: BOX_WIDTH,
+    width: "80%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    margin: MARGIN,
     borderStyle: "solid",
     borderRadius: BORDER_RADIUS,
+    borderWidth: isMobile ? 2 : 3,
     outline: "none",
-    fontSize: 24,
+    fontSize: "3em",
+    aspectRatio: "1/1",
   },
   inputError: {
     borderColor: RED,
@@ -57,21 +57,21 @@ export const RowV2 = ({ disabled, value, hasError = false }: RowProps) => {
         display: "flex",
         marginBottom: "10px",
         justifyContent: "center",
+        width: "100%",
       }}
       className={shake ? "shake" : ""}
     >
-      {/* <div
-        style={{
-          marginTop: MARGIN * 4,
-          marginRight: MARGIN * 2,
-          marginLeft: MARGIN * 2,
-        }}
-        className={animate ? "slide-in" : ""}
-      >
-        {rowIndex + 1}
-      </div> */}
       {rowValues.map((val, index) => (
-        <div className={hop ? `hop-effect-${index}` : ""} key={index}>
+        <div
+          className={hop ? `hop-effect-${index}` : ""}
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: MARGIN,
+          }}
+          key={index}
+        >
           <div
             style={{
               ...style.inputStyle,

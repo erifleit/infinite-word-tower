@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useGameStore } from "../../store";
+import { useGameStore, useModalState } from "../../store";
 
 export const useHeader = () => {
   const [bestScore, setBestScore] = useState<number>(() => {
@@ -8,6 +8,7 @@ export const useHeader = () => {
   });
 
   const { words } = useGameStore();
+  const { openModal } = useModalState();
 
   useEffect(() => {
     if (words.length > bestScore) {
@@ -19,5 +20,6 @@ export const useHeader = () => {
   return {
     score: words.length,
     bestScore,
+    openModal,
   };
 };

@@ -1,6 +1,6 @@
 import { RowV2 } from "../Row";
 import { useTower } from "./useTower";
-import { ErrorMessage } from "../ErrorMessage";
+import { Message } from "../Message";
 
 export const Tower = () => {
   const { error, words } = useTower();
@@ -10,7 +10,14 @@ export const Tower = () => {
   // });
 
   return (
-    <div style={{ paddingTop: 100 }}>
+    <div
+      style={{
+        // backgroundColor: "red",
+        width: "100%",
+        maxWidth: 700,
+      }}
+      className="tower"
+    >
       {words.map((value, index) => {
         return (
           <div
@@ -19,6 +26,7 @@ export const Tower = () => {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "flex-start",
+              width: "100%",
             }}
             key={index}
           >
@@ -31,7 +39,7 @@ export const Tower = () => {
           </div>
         );
       })}
-      <ErrorMessage />
+      <Message />
     </div>
   );
 };
