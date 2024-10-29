@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/infinite-word-tower/static/css/main.6a66b1ea.css",
-    "main.js": "/infinite-word-tower/static/js/main.b4ef74d4.js",
+    "main.css": "/infinite-word-tower/static/css/main.bc9ae6b6.css",
+    "main.js": "/infinite-word-tower/static/js/main.a0ea28cd.js",
     "static/js/453.91636157.chunk.js": "/infinite-word-tower/static/js/453.91636157.chunk.js",
     "index.html": "/infinite-word-tower/index.html",
-    "main.6a66b1ea.css.map": "/infinite-word-tower/static/css/main.6a66b1ea.css.map",
-    "main.b4ef74d4.js.map": "/infinite-word-tower/static/js/main.b4ef74d4.js.map",
+    "main.bc9ae6b6.css.map": "/infinite-word-tower/static/css/main.bc9ae6b6.css.map",
+    "main.a0ea28cd.js.map": "/infinite-word-tower/static/js/main.a0ea28cd.js.map",
     "453.91636157.chunk.js.map": "/infinite-word-tower/static/js/453.91636157.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6a66b1ea.css",
-    "static/js/main.b4ef74d4.js"
+    "static/css/main.bc9ae6b6.css",
+    "static/js/main.a0ea28cd.js"
   ]
 }
