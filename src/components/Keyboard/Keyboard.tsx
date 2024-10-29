@@ -1,7 +1,7 @@
 import { useGameStore, useUIState } from "../../store";
 
 export const Keyboard = () => {
-  const { setCurrentWord, currentWord } = useGameStore();
+  const { setCurrentWord, currentWord, setError, error } = useGameStore();
   const { keyboardVisible } = useUIState();
 
   const keys: string[][] = [
@@ -13,6 +13,9 @@ export const Keyboard = () => {
   const handleKeyPress = (key: string) => {
     if (key === "Backspace") {
       setCurrentWord(currentWord.slice(0, -1));
+      if (error) {
+        setError(undefined);
+      }
     } else {
       setCurrentWord(`${currentWord}${key}`);
     }
