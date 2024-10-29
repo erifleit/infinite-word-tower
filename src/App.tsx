@@ -1,11 +1,13 @@
 import "./App.css";
-import { Tower } from "./components";
+import { Modal, Tower } from "./components";
+import { Header } from "./components/Header";
 
 const App = () => {
   return (
     <div className="App">
-      <h1>Infinite Word Tower</h1>
+      <Header />
       <Tower />
+      {/* <Modal /> */}
     </div>
   );
 };

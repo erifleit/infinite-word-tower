@@ -1,13 +1,24 @@
-import { Row } from "../Row";
-import { useRowTower } from "./useTower";
-import { ErrorMessage } from "../ErrorMessage";
+import { RowV2 } from "../Row";
+import { useTower } from "./useTower";
+import { Message } from "../Message";
 
 export const Tower = () => {
-  const { numOfRows, handleRowFilled, error, clearError } = useRowTower();
+  const { error, words } = useTower();
+
+  // const words = Array.from({ length: 20 }).map(() => {
+  //   return "HELLO";
+  // });
 
   return (
-    <div>
-      {Array.from({ length: numOfRows }).map((_value, index) => {
+    <div
+      style={{
+        // backgroundColor: "red",
+        width: "100%",
+        maxWidth: 700,
+      }}
+      className="tower"
+    >
+      {words.map((value, index) => {
         return (
           <div
             style={{
@@ -15,20 +26,20 @@ export const Tower = () => {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "flex-start",
+              width: "100%",
             }}
+            key={index}
           >
-            <Row
-              key={index}
+            <RowV2
+              value={value}
               rowIndex={index}
-              onRowFilled={handleRowFilled}
-              disabled={index < numOfRows - 1}
-              clearError={clearError}
-              hasError={!!error && index === numOfRows - 1}
+              disabled={index < words.length - 1}
+              hasError={!!error && index === words.length - 1}
             />
           </div>
         );
       })}
-      <ErrorMessage message={error} />
+      <Message />
     </div>
   );
 };
