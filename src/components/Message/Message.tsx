@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useGameStore } from "../../store";
 
 const MessageStyle = {
-  height: 40,
+  // height: 40,
 };
 
 const ErrorMessageStyle = {
