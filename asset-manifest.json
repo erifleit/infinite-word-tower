@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/infinite-word-tower/static/css/main.bc9ae6b6.css",
-    "main.js": "/infinite-word-tower/static/js/main.54afa505.js",
+    "main.js": "/infinite-word-tower/static/js/main.eeae07b3.js",
     "static/js/453.91636157.chunk.js": "/infinite-word-tower/static/js/453.91636157.chunk.js",
     "index.html": "/infinite-word-tower/index.html",
     "main.bc9ae6b6.css.map": "/infinite-word-tower/static/css/main.bc9ae6b6.css.map",
-    "main.54afa505.js.map": "/infinite-word-tower/static/js/main.54afa505.js.map",
+    "main.eeae07b3.js.map": "/infinite-word-tower/static/js/main.eeae07b3.js.map",
     "453.91636157.chunk.js.map": "/infinite-word-tower/static/js/453.91636157.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bc9ae6b6.css",
-    "static/js/main.54afa505.js"
+    "static/js/main.eeae07b3.js"
   ]
 }
