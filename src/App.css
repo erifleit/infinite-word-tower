@@ -55,6 +55,9 @@
   .Score {
     font-size: 2em;
   }
+  .message {
+    font-size: 2em;
+  }
   .tower {
     padding-top: 150px;
   }

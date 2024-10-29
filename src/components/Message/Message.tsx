@@ -1,21 +1,29 @@
+import { useMemo } from "react";
 import { useGameStore } from "../../store";
-
-const ErrorMessageStyle = {
-  color: "red",
-  height: 40,
-};
 
 const MessageStyle = {
   height: 40,
 };
 
+const ErrorMessageStyle = {
+  ...MessageStyle,
+  color: "red",
+};
+
 export const Message = () => {
   const { message, displayMessage, error } = useGameStore();
 
-  return error ? (
-    <div style={ErrorMessageStyle}>{error}</div>
-  ) : displayMessage ? (
-    <div style={MessageStyle}>{message}</div>
+  const style = useMemo(
+    () => (error ? ErrorMessageStyle : MessageStyle),
+    [error]
+  );
+
+  const content = useMemo(() => error || message, [error, message]);
+
+  return error || displayMessage ? (
+    <div style={style} className="message">
+      {content}
+    </div>
   ) : (
     <></>
   );
