@@ -6,6 +6,7 @@ type UIState = {
   openModal: () => void;
   keyboardVisible: boolean;
   setKeyboardVisible: (keyboardVisible: boolean) => void;
+  toggleKeyboard: () => void;
 };
 
 export const useUIState = create<UIState>((set) => ({
@@ -14,4 +15,6 @@ export const useUIState = create<UIState>((set) => ({
   openModal: () => set({ isModalOpen: true }),
   keyboardVisible: false,
   setKeyboardVisible: (keyboardVisible) => set({ keyboardVisible }),
+  toggleKeyboard: () =>
+    set(({ keyboardVisible }) => ({ keyboardVisible: !keyboardVisible })),
 }));

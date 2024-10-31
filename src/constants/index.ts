@@ -18,4 +18,11 @@ export enum ERRORS {
   NOT_REAL = "Not a real word!",
   ALREADY_USED = "You already used this word!",
   MUST_HAVE_DIFFERENT = "There must be at most 1 different letter",
+  ERROR_CHECKING = "Oops! Something went wrong.",
+}
+
+export enum RESPONSES {
+  VALID = "VALID_WORD",
+  INVALID = "INVALID_WORD",
+  ERROR = "ERROR",
 }

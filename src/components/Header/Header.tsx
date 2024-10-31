@@ -1,15 +1,7 @@
-import { useUIState } from "../../store";
 import { useHeader } from "./useHeader";
 
 export const Header = () => {
-  const {
-    score,
-    bestScore,
-    openModal,
-    showKeyboard,
-    hideKeyboard,
-    keyboardVisible,
-  } = useHeader();
+  const { score, bestScore } = useHeader();
 
   return (
     <div className="Header">
@@ -18,12 +10,7 @@ export const Header = () => {
         <div className="Score">
           <div>Score: {score}</div>
           <div>Best Score: {bestScore}</div>
-          <div
-            className="options"
-            onClick={keyboardVisible ? hideKeyboard : showKeyboard}
-          >
-            {keyboardVisible ? "hide keyboard" : "show keyboard"}
-          </div>
+          <div className="options">Options</div>
         </div>
       </div>
       <div className="Padding" />

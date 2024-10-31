@@ -12,6 +12,7 @@
   width: 100%;
   margin: 0; /* Remove default margin */
   max-width: 700px;
+  font-weight: bold;
 }
 
 .Padding {
@@ -38,6 +39,7 @@
   justify-content: space-around;
   background-color: white;
   width: 100%;
+  font-weight: normal;
 }
 
 .tower {
@@ -48,6 +50,14 @@
 .options {
   color: blue;
   cursor: pointer;
+}
+
+.message {
+  padding-bottom: 50px;
+}
+
+.keyboard {
+  width: 100%;
 }
 
 @media (min-width: 900px) {
@@ -64,6 +74,9 @@
     padding-top: 150px;
     width: 100%;
     max-width: 700px;
+  }
+  .keyboard {
+    width: 90%;
   }
 }
 

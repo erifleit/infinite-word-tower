@@ -1,8 +1,11 @@
 import { useMemo } from "react";
-import { useGameStore } from "../../store";
+import { ERRORS, MARGIN } from "../../constants";
+import { useMessage } from "./useMessage";
 
 const MessageStyle = {
-  // height: 40,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 };
 
 const ErrorMessageStyle = {
@@ -11,20 +14,24 @@ const ErrorMessageStyle = {
 };
 
 export const Message = () => {
-  const { message, displayMessage, error } = useGameStore();
+  const { displayMessage, content, tryAgain, error } = useMessage();
 
   const style = useMemo(
     () => (error ? ErrorMessageStyle : MessageStyle),
     [error]
   );
 
-  const content = useMemo(() => error || message, [error, message]);
-
-  return error || displayMessage ? (
+  return (
     <div style={style} className="message">
-      {content}
+      {error || displayMessage ? content : ""}
+      {error === ERRORS.ERROR_CHECKING && (
+        <div
+          style={{ color: "blue", cursor: "pointer", margin: MARGIN }}
+          onClick={tryAgain}
+        >
+          Try Again
+        </div>
+      )}
     </div>
-  ) : (
-    <></>
   );
 };

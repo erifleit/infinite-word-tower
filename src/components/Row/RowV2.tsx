@@ -30,6 +30,7 @@ const style: Record<string, React.CSSProperties> = {
     outline: "none",
     fontSize: "3em",
     aspectRatio: "1/1",
+    fontWeight: isMobile ? "normal" : "bold",
   },
   inputError: {
     borderColor: RED,

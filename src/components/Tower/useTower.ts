@@ -3,18 +3,22 @@ import { getWord } from "../../api";
 import { isMobile } from "react-device-detect";
 import { useGameStore, useUIState } from "../../store";
 import { getMessage, getQueryParam } from "../../utils";
-import { ERRORS, MESSAGES } from "../../constants";
+import { ERRORS, MESSAGES, RESPONSES } from "../../constants";
 
 export const useTower = () => {
   const {
     words,
-    setWords,
+    addWord,
     currentWord,
     setCurrentWord,
     error,
     setError,
     setMessage,
     setDisplayMessage,
+    message,
+    addFailedWord,
+    failedWords,
+    setStarterWord,
   } = useGameStore();
 
   const { isModalOpen, keyboardVisible } = useUIState();
@@ -24,8 +28,7 @@ export const useTower = () => {
   useEffect(() => {
     const starterWord = getQueryParam();
     if (starterWord) {
-      setWords([starterWord]);
-      setCurrentWord("");
+      setStarterWord(starterWord);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -41,7 +44,12 @@ export const useTower = () => {
       }
 
       // Detect backspace key
-      if (key === "Backspace" && currentWord.length) {
+      if (
+        key === "Backspace" &&
+        currentWord.length &&
+        message !== MESSAGES.LOADING
+      ) {
+        console.log("hello");
         setCurrentWord(currentWord.slice(0, currentWord.length - 1));
         if (error) {
           setError(undefined);
@@ -55,13 +63,18 @@ export const useTower = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [error, currentWord, setCurrentWord, setError, isModalOpen]);
+  }, [error, currentWord, setCurrentWord, setError, isModalOpen, message]);
 
   useEffect(() => {
     const handleRowFilled = async (word: string) => {
       if (words.includes(word)) {
         setError(ERRORS.ALREADY_USED);
-        setDisplayMessage(false);
+        return;
+      }
+
+      // this prevents spamming the same word repeatedly - could try saving this in local storage
+      if (failedWords.includes(word)) {
+        setError(ERRORS.NOT_REAL);
         return;
       }
 
@@ -80,14 +93,18 @@ export const useTower = () => {
         }
       }
 
-      const valid = await getWord(word);
-      if (valid) {
-        setWords([...words, word]);
-        setCurrentWord("");
+      const response = await getWord(word);
+      if (response === RESPONSES.VALID) {
+        addWord();
         window.scrollTo(0, document.body.scrollHeight);
         setDisplayMessage(false);
       } else {
-        setError(ERRORS.NOT_REAL);
+        if (response === RESPONSES.INVALID) {
+          setError(ERRORS.NOT_REAL);
+          addFailedWord(word);
+        } else {
+          setError(ERRORS.ERROR_CHECKING);
+        }
       }
     };
     if (currentWord.length === 5) {
@@ -98,12 +115,13 @@ export const useTower = () => {
   }, [
     currentWord,
     lastWord,
-    setCurrentWord,
     setError,
     setDisplayMessage,
-    setWords,
+    addWord,
     words,
     setMessage,
+    addFailedWord,
+    failedWords,
   ]);
 
   useEffect(() => {
@@ -121,6 +139,12 @@ export const useTower = () => {
       });
     }
   }, [setDisplayMessage, setMessage, words, error]);
+
+  useEffect(() => {
+    if (keyboardVisible) {
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  }, [keyboardVisible]);
 
   return {
     words: [...words, currentWord],
