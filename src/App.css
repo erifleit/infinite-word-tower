@@ -1,7 +1,17 @@
+html,
+body {
+  background-color: #273744;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
   display: flex;
   justify-content: center;
+  /* height: inherit; */
+  background-color: #273744;
 }
 
 .Header {
@@ -18,28 +28,27 @@
 .Padding {
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 1),
+    #273744,
     transparent
   ); /* Adjust colors as needed */
   width: 100%;
   margin: 0; /* Remove default margin */
-  height: 30px;
+  height: 25px;
 }
 
 .Title {
   height: 100%;
   font-size: 2em;
   padding: 20px 0px 10px 0;
-  background-color: white;
 }
 
 .Score {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  background-color: white;
   width: 100%;
   font-weight: normal;
+  align-items: center;
 }
 
 .tower {
@@ -60,6 +69,10 @@
   width: 100%;
 }
 
+.Meatball {
+  width: 30px;
+}
+
 @media (min-width: 900px) {
   .Title {
     font-size: 3em;
@@ -71,12 +84,15 @@
     font-size: 2em;
   }
   .tower {
-    padding-top: 150px;
+    padding-top: 170px;
     width: 100%;
     max-width: 700px;
   }
   .keyboard {
     width: 90%;
+  }
+  .Meatball {
+    width: 40px;
   }
 }
 

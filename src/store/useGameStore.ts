@@ -47,7 +47,6 @@ export const useGameStore = create<GameState>((set) => ({
       if (updatedScore > bestScore) {
         updateLocalStorageBestScore(updatedScore);
       }
-      console.log({ updatedScore, bestScore });
       return {
         words: [...words, currentWord],
         score: updatedScore,

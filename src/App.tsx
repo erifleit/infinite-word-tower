@@ -8,8 +8,8 @@ const App = () => {
     <div className="App">
       <Header />
       <Tower />
-      {/* <Modal /> */}
       <Keyboard />
+      {/* <Modal /> */}
     </div>
   );
 };

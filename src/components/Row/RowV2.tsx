@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import {
   BORDER_RADIUS,
-  GREEN,
-  LIGHT_GREEN,
   LIGHT_RED,
   MARGIN,
   RED,
+  BOX_BACKGROUND_COLOR,
+  BOX_TEXT_COLOR,
 } from "../../constants";
 import { useRowAnimations } from "./useRowAnimations";
 import { isMobile } from "react-device-detect";
@@ -31,14 +31,17 @@ const style: Record<string, React.CSSProperties> = {
     fontSize: "3em",
     aspectRatio: "1/1",
     fontWeight: isMobile ? "normal" : "bold",
+    color: BOX_TEXT_COLOR,
+    borderColor: BOX_BACKGROUND_COLOR,
   },
   inputError: {
     borderColor: RED,
     backgroundColor: LIGHT_RED,
+    color: RED,
   },
   disabledInput: {
-    borderColor: GREEN,
-    backgroundColor: LIGHT_GREEN,
+    borderColor: BOX_BACKGROUND_COLOR,
+    backgroundColor: BOX_BACKGROUND_COLOR,
   },
 };
 
@@ -84,7 +87,9 @@ export const RowV2 = ({ disabled, value, hasError = false }: RowProps) => {
             }}
             className={animate ? "slide-in" : ""}
             onClick={() => {
-              setKeyboardVisible(!keyboardVisible);
+              if (!disabled) {
+                setKeyboardVisible(!keyboardVisible);
+              }
             }}
           >
             {val}

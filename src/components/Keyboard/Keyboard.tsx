@@ -1,3 +1,4 @@
+import { TEXT_COLOR } from "../../constants";
 import { useGameStore, useUIState } from "../../store";
 
 const styles = {
@@ -7,32 +8,30 @@ const styles = {
     display: "flex",
     flexDirection: "column" as const,
     alignItems: "center",
-    // padding: "10px",
     borderRadius: "8px 8px 0 0",
     zIndex: 1000,
     width: "100%",
     maxWidth: 700,
     boxSizing: "border-box" as const,
-    backgroundColor: "#f2ecec",
+    backgroundColor: "#314451",
   },
   row: {
     display: "flex",
     justifyContent: "space-between" as const, // Distributes keys evenly across the row
-    marginBottom: "5px",
+    marginBottom: 4,
     width: "100%", // Ensures rows take full width of the container
-    marginHorizontal: "5px",
+    marginHorizontal: 4,
   },
   key: {
     flex: "1", // Each key takes equal space in the row
     padding: "10px 0", // Vertical padding for better touch targets
     margin: "2px", // Margin between keys
     fontSize: "1em",
-    backgroundColor: "#555",
-    color: "#fff",
+    backgroundColor: "#3c4e5b",
+    color: TEXT_COLOR,
     border: "none",
-    borderRadius: "5px",
+    borderRadius: 8,
     cursor: "pointer",
-    // minWidth: "35px", // Minimum width for each key
     boxSizing: "border-box" as const,
   },
 };
@@ -62,20 +61,26 @@ export const Keyboard = () => {
     <div style={styles.keyboard}>
       <div
         style={{
-          marginBottom: 10,
-          cursor: "pointer",
+          paddingBottom: 12,
+          paddingTop: 8,
+          borderRadius: "8px 8px 0 0",
           width: "100%",
-          height: 40,
-          alignItems: "center",
+          height: 25,
           display: "flex",
+          alignItems: "center",
           justifyContent: "center",
+          backgroundColor: "#3c4e5b",
         }}
-        onClick={toggleKeyboard}
       >
-        {keyboardVisible ? "▼" : "▲"}
+        <div
+          style={{ width: "15%", color: "#273744", cursor: "pointer" }}
+          onClick={toggleKeyboard}
+        >
+          {keyboardVisible ? "▼" : "▲"}
+        </div>
       </div>
       {keyboardVisible ? (
-        <div className="keyboard">
+        <div className="keyboard" style={{ marginTop: 8 }}>
           {keys.map((row, rowIndex) => (
             <div key={rowIndex} style={styles.row}>
               {row.map((key) => (

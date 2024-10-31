@@ -1,16 +1,17 @@
 import { useMemo } from "react";
-import { ERRORS, MARGIN } from "../../constants";
+import { ERRORS, MARGIN, RED, TEXT_COLOR } from "../../constants";
 import { useMessage } from "./useMessage";
 
 const MessageStyle = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  color: TEXT_COLOR,
 };
 
 const ErrorMessageStyle = {
   ...MessageStyle,
-  color: "red",
+  color: RED,
 };
 
 export const Message = () => {
