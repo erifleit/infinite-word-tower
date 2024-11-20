@@ -1,2 +1,2 @@
 export * from "./useRow";
-export * from "./RowV2";
+export * from "./Row";

@@ -45,7 +45,7 @@ const style: Record<string, React.CSSProperties> = {
   },
 };
 
-export const RowV2 = ({ disabled, value, hasError = false }: RowProps) => {
+export const Row = ({ disabled, value, hasError = false }: RowProps) => {
   const { shake, animate, hop } = useRowAnimations({ disabled, hasError });
 
   const { keyboardVisible, setKeyboardVisible } = useUIState();

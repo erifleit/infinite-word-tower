@@ -1,4 +1,4 @@
-import { RowV2 } from "../Row";
+import { Row } from "../Row";
 import { useTower } from "./useTower";
 import { Message } from "../Message";
 
@@ -26,7 +26,7 @@ export const Tower = () => {
             }}
             key={index}
           >
-            <RowV2
+            <Row
               value={value}
               rowIndex={index}
               disabled={index < words.length - 1}
