@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useGameStore } from "../../store";
-import { MESSAGES, ERRORS } from "../../constants";
+import { MESSAGES, ERRORS, RESPONSES } from "../../constants";
 import { getWord } from "../../api";
 
 export const useMessage = () => {
@@ -10,8 +10,6 @@ export const useMessage = () => {
     error,
     currentWord,
     addWord,
-    setCurrentWord,
-    setDisplayMessage,
     setError,
     setMessage,
   } = useGameStore();
@@ -20,20 +18,14 @@ export const useMessage = () => {
 
   const tryAgain = async () => {
     setError(undefined);
-    setDisplayMessage(true);
     setMessage(MESSAGES.LOADING);
     const response = await getWord(currentWord);
-    if (response === "VALID_WORD") {
+    if (response === RESPONSES.VALID) {
       addWord();
-      setCurrentWord("");
-      window.scrollTo(0, document.body.scrollHeight);
-      setDisplayMessage(false);
     } else {
-      if (response === "INVALID_WORD") {
-        setError(ERRORS.NOT_REAL);
-      } else {
-        setError(ERRORS.ERROR_CHECKING);
-      }
+      setError(
+        response === RESPONSES.INVALID ? ERRORS.NOT_REAL : ERRORS.ERROR_CHECKING
+      );
     }
   };
 

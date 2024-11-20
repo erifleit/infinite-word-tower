@@ -10,15 +10,12 @@ export const useTower = () => {
     words,
     addWord,
     currentWord,
-    setCurrentWord,
     error,
     setError,
     setMessage,
-    setDisplayMessage,
     message,
-    addFailedWord,
-    failedWords,
     setStarterWord,
+    handleKeyPress,
   } = useGameStore();
 
   const { isModalOpen, keyboardVisible } = useUIState();
@@ -34,47 +31,29 @@ export const useTower = () => {
   }, []);
 
   useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (isModalOpen) return;
+    const keyPress = (event: KeyboardEvent) => {
+      if (isModalOpen || message === MESSAGES.LOADING) {
+        return;
+      }
       const key = event.key;
 
-      // Detect alphabetic characters (a-z)
-      if (/^[a-zA-Z]$/.test(key) && currentWord.length < 5) {
-        setCurrentWord(`${currentWord}${key.toUpperCase()}`);
-      }
-
-      // Detect backspace key
-      if (
-        key === "Backspace" &&
-        currentWord.length &&
-        message !== MESSAGES.LOADING
-      ) {
-        console.log("hello");
-        setCurrentWord(currentWord.slice(0, currentWord.length - 1));
-        if (error) {
-          setError(undefined);
-        }
+      if (/^[a-zA-Z]$/.test(key) || key === "Backspace") {
+        handleKeyPress(key);
       }
     };
 
-    window.addEventListener("keydown", handleKeyPress);
+    window.addEventListener("keydown", keyPress);
 
     // Cleanup the event listener on component unmount
     return () => {
-      window.removeEventListener("keydown", handleKeyPress);
+      window.removeEventListener("keydown", keyPress);
     };
-  }, [error, currentWord, setCurrentWord, setError, isModalOpen, message]);
+  }, [isModalOpen, message, handleKeyPress]);
 
   useEffect(() => {
     const handleRowFilled = async (word: string) => {
       if (words.includes(word)) {
         setError(ERRORS.ALREADY_USED);
-        return;
-      }
-
-      // this prevents spamming the same word repeatedly - could try saving this in local storage
-      if (failedWords.includes(word)) {
-        setError(ERRORS.NOT_REAL);
         return;
       }
 
@@ -96,39 +75,24 @@ export const useTower = () => {
       const response = await getWord(word);
       if (response === RESPONSES.VALID) {
         addWord();
-        window.scrollTo(0, document.body.scrollHeight);
-        setDisplayMessage(false);
       } else {
-        if (response === RESPONSES.INVALID) {
-          setError(ERRORS.NOT_REAL);
-          addFailedWord(word);
-        } else {
-          setError(ERRORS.ERROR_CHECKING);
-        }
+        setError(
+          response === RESPONSES.INVALID
+            ? ERRORS.NOT_REAL
+            : ERRORS.ERROR_CHECKING
+        );
       }
     };
     if (currentWord.length === 5) {
-      setDisplayMessage(true);
       setMessage(MESSAGES.LOADING);
       handleRowFilled(currentWord);
     }
-  }, [
-    currentWord,
-    lastWord,
-    setError,
-    setDisplayMessage,
-    addWord,
-    words,
-    setMessage,
-    addFailedWord,
-    failedWords,
-  ]);
+  }, [currentWord, lastWord, setError, addWord, words, setMessage]);
 
   useEffect(() => {
     const message = getMessage(words.length);
 
     if (message) {
-      setDisplayMessage(true);
       setMessage(message);
     }
 
@@ -138,7 +102,7 @@ export const useTower = () => {
         behavior: "smooth",
       });
     }
-  }, [setDisplayMessage, setMessage, words, error]);
+  }, [setMessage, words, error]);
 
   useEffect(() => {
     if (keyboardVisible) {

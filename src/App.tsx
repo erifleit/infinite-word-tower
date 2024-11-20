@@ -1,5 +1,5 @@
 import "./App.css";
-import { Modal, Tower } from "./components";
+import { Tower } from "./components";
 import { Header } from "./components/Header";
 import { Keyboard } from "./components/Keyboard";
 

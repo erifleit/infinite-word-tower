@@ -1,32 +1,25 @@
 import { create } from "zustand";
 import { ERRORS, MESSAGES } from "../constants";
+import {
+  updateWord,
+  getBestScore,
+  updateLocalStorageBestScore,
+} from "../utils";
 
 export type GameState = {
+  bestScore: number;
+  currentWord: string;
+  displayMessage: boolean;
+  error?: ERRORS;
+  message?: MESSAGES;
+  score: number;
   words: string[];
   addWord: () => void;
-  setStarterWord: (word: string) => void;
-  currentWord: string;
-  setCurrentWord: (word: string) => void;
-  error?: ERRORS;
+  handleKeyPress: (key: string) => void;
   setError: (error?: ERRORS) => void;
-  displayMessage: boolean;
-  setDisplayMessage: (loading: boolean) => void;
-  message?: MESSAGES;
   setMessage: (message?: MESSAGES) => void;
-  score: number;
   setScore: (score: number) => void;
-  bestScore: number;
-  failedWords: string[];
-  addFailedWord: (word: string) => void;
-};
-
-const getBestScore = () => {
-  const savedScore = localStorage.getItem("bestScore");
-  return savedScore ? JSON.parse(savedScore) : 0;
-};
-
-const updateLocalStorageBestScore = (score: number) => {
-  localStorage.setItem("bestScore", JSON.stringify(score));
+  setStarterWord: (word: string) => void;
 };
 
 export const useGameStore = create<GameState>((set) => ({
@@ -38,7 +31,6 @@ export const useGameStore = create<GameState>((set) => ({
   message: undefined,
   score: 0,
   bestScore: getBestScore(),
-  failedWords: [],
 
   // Actions
   addWord: () =>
@@ -47,21 +39,26 @@ export const useGameStore = create<GameState>((set) => ({
       if (updatedScore > bestScore) {
         updateLocalStorageBestScore(updatedScore);
       }
+      window.scrollTo(0, document.body.scrollHeight);
       return {
         words: [...words, currentWord],
         score: updatedScore,
         currentWord: "",
         bestScore: Math.max(updatedScore, bestScore),
+        displayMessage: false,
+        message: undefined,
       };
     }),
 
   setStarterWord: (word) =>
     set(({ score }) => ({ words: [word], score: score + 1 })),
 
-  setCurrentWord: (word) => {
-    if (word.length <= 5) {
-      set({ currentWord: word });
-    }
+  handleKeyPress: (key) => {
+    console.log("handleKeyPress everywhere!");
+    set(({ currentWord, error }) => ({
+      currentWord: updateWord(currentWord, key),
+      error: key === "Backspace" ? undefined : error,
+    }));
   },
 
   setError: (error) =>
@@ -71,14 +68,6 @@ export const useGameStore = create<GameState>((set) => ({
       displayMessage: !error,
     })),
 
-  setDisplayMessage: (displayMessage) =>
-    set(
-      displayMessage
-        ? { displayMessage }
-        : { displayMessage, message: undefined }
-    ),
-  setMessage: (message) => set({ message }),
+  setMessage: (message) => set({ message, displayMessage: !!message }),
   setScore: (score) => set({ score }),
-  addFailedWord: (word) =>
-    set(({ failedWords }) => ({ failedWords: [...failedWords, word] })),
 }));

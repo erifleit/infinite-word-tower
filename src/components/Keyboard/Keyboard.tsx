@@ -1,4 +1,5 @@
-import { TEXT_COLOR } from "../../constants";
+import { useMemo } from "react";
+import { MESSAGES, TEXT_COLOR } from "../../constants";
 import { useGameStore, useUIState } from "../../store";
 
 const styles = {
@@ -37,7 +38,7 @@ const styles = {
 };
 
 export const Keyboard = () => {
-  const { setCurrentWord, currentWord, setError, error } = useGameStore();
+  const { handleKeyPress, message } = useGameStore();
   const { keyboardVisible, toggleKeyboard } = useUIState();
 
   const keys: string[][] = [
@@ -46,16 +47,7 @@ export const Keyboard = () => {
     ["Z", "X", "C", "V", "B", "N", "M", "Backspace"],
   ];
 
-  const handleKeyPress = (key: string) => {
-    if (key === "Backspace") {
-      setCurrentWord(currentWord.slice(0, -1));
-      if (error) {
-        setError(undefined);
-      }
-    } else {
-      setCurrentWord(`${currentWord}${key}`);
-    }
-  };
+  const isLoading = useMemo(() => message === MESSAGES.LOADING, [message]);
 
   return (
     <div style={styles.keyboard}>
@@ -86,7 +78,7 @@ export const Keyboard = () => {
               {row.map((key) => (
                 <button
                   key={key}
-                  onClick={() => handleKeyPress(key)}
+                  onClick={() => (isLoading ? handleKeyPress(key) : null)}
                   style={styles.key}
                 >
                   {key === "Backspace" ? "←" : key}
