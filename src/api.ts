@@ -3,7 +3,6 @@ import { getSavedWord, addSavedWord } from "./utils";
 export const getWord = async (word: string) => {
   const savedWord = getSavedWord(word);
   if (savedWord) {
-    console.log("retrived from local storage");
     return savedWord;
   }
 
@@ -15,7 +14,6 @@ export const getWord = async (word: string) => {
     const body: string = await response.json();
 
     addSavedWord(word, body);
-    console.log("adding response to local storage");
 
     return body;
   } catch (error) {

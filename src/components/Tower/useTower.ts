@@ -16,6 +16,10 @@ export const useTower = () => {
     message,
     setStarterWord,
     handleKeyPress,
+    handleAddNewKey,
+    setSelectedBox,
+    selectedBox,
+    moveSelectedBox,
   } = useGameStore();
 
   const { isModalOpen, keyboardVisible } = useUIState();
@@ -37,8 +41,27 @@ export const useTower = () => {
       }
       const key = event.key;
 
-      if (/^[a-zA-Z]$/.test(key) || key === "Backspace") {
-        handleKeyPress(key);
+      if (
+        selectedBox !== undefined &&
+        (key === "ArrowLeft" || key === "ArrowRight")
+      ) {
+        if (key === "ArrowLeft" && selectedBox > 0) {
+          setSelectedBox(selectedBox - 1);
+        }
+        if (key === "ArrowRight" && selectedBox < 4) {
+          setSelectedBox(selectedBox + 1);
+        }
+        return;
+      }
+
+      if (words.length === 0) {
+        if (/^[a-zA-Z]$/.test(key) || key === "Backspace") {
+          handleKeyPress(key);
+        }
+      } else {
+        if (/^[a-zA-Z]$/.test(key)) {
+          handleAddNewKey(key);
+        }
       }
     };
 
@@ -48,7 +71,16 @@ export const useTower = () => {
     return () => {
       window.removeEventListener("keydown", keyPress);
     };
-  }, [isModalOpen, message, handleKeyPress]);
+  }, [
+    isModalOpen,
+    message,
+    handleKeyPress,
+    handleAddNewKey,
+    words.length,
+    setSelectedBox,
+    moveSelectedBox,
+    selectedBox,
+  ]);
 
   useEffect(() => {
     const handleRowFilled = async (word: string) => {
@@ -83,9 +115,17 @@ export const useTower = () => {
         );
       }
     };
-    if (currentWord.length === 5) {
+    if (currentWord.length === 5 && words.length === 0) {
       setMessage(MESSAGES.LOADING);
       handleRowFilled(currentWord);
+    } else {
+      if (
+        words.length >= 1 &&
+        currentWord !== lastWord &&
+        !currentWord.includes(" ")
+      ) {
+        handleRowFilled(currentWord);
+      }
     }
   }, [currentWord, lastWord, setError, addWord, words, setMessage]);
 

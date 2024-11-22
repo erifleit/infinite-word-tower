@@ -38,7 +38,7 @@ const styles = {
 };
 
 export const Keyboard = () => {
-  const { handleKeyPress, message } = useGameStore();
+  const { handleKeyPress, message, words, handleAddNewKey } = useGameStore();
   const { keyboardVisible, toggleKeyboard } = useUIState();
 
   const keys: string[][] = [
@@ -48,6 +48,14 @@ export const Keyboard = () => {
   ];
 
   const isLoading = useMemo(() => message === MESSAGES.LOADING, [message]);
+
+  const handleClickKey = (key: string) => {
+    if (words.length === 0) {
+      handleKeyPress(key);
+    } else {
+      handleAddNewKey(key);
+    }
+  };
 
   return (
     <div style={styles.keyboard}>
@@ -78,7 +86,11 @@ export const Keyboard = () => {
               {row.map((key) => (
                 <button
                   key={key}
-                  onClick={() => (isLoading ? handleKeyPress(key) : null)}
+                  onClick={() => {
+                    if (!isLoading) {
+                      handleClickKey(key);
+                    }
+                  }}
                   style={styles.key}
                 >
                   {key === "Backspace" ? "←" : key}

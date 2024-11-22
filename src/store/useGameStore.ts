@@ -6,6 +6,11 @@ import {
   updateLocalStorageBestScore,
 } from "../utils";
 
+function setCharAt(str: string, index: number, chr: string) {
+  if (index > str.length - 1) return str;
+  return str.substring(0, index) + chr.toUpperCase() + str.substring(index + 1);
+}
+
 export type GameState = {
   bestScore: number;
   currentWord: string;
@@ -14,6 +19,10 @@ export type GameState = {
   message?: MESSAGES;
   score: number;
   words: string[];
+  selectedBox?: number;
+  setSelectedBox: (index?: number) => void;
+  moveSelectedBox: (key: string) => undefined | number;
+  handleAddNewKey: (key: string) => void;
   addWord: () => void;
   handleKeyPress: (key: string) => void;
   setError: (error?: ERRORS) => void;
@@ -22,7 +31,7 @@ export type GameState = {
   setStarterWord: (word: string) => void;
 };
 
-export const useGameStore = create<GameState>((set) => ({
+export const useGameStore = create<GameState>((set, get) => ({
   // Initial states
   words: [],
   currentWord: "",
@@ -31,6 +40,7 @@ export const useGameStore = create<GameState>((set) => ({
   message: undefined,
   score: 0,
   bestScore: getBestScore(),
+  selectedBox: undefined,
 
   // Actions
   addWord: () =>
@@ -43,18 +53,50 @@ export const useGameStore = create<GameState>((set) => ({
       return {
         words: [...words, currentWord],
         score: updatedScore,
-        currentWord: "",
         bestScore: Math.max(updatedScore, bestScore),
         displayMessage: false,
         message: undefined,
+        error: undefined,
+        selectedBox: undefined,
       };
     }),
+
+  setSelectedBox: (index) => {
+    set(({ words, error }) => ({
+      selectedBox: index,
+      currentWord:
+        index === undefined
+          ? words[words.length - 1]
+          : setCharAt(words[words.length - 1], index, " "),
+      error: undefined,
+    }));
+  },
+
+  moveSelectedBox: (key) => {
+    const { selectedBox } = get();
+    if (selectedBox === undefined) return undefined;
+    if (key === "ArrowLeft" && selectedBox > 0) {
+      return selectedBox - 1;
+    }
+    if (key === "ArrowRight" && selectedBox < 4) {
+      return selectedBox + 1;
+    }
+  },
+
+  handleAddNewKey: (key: string) => {
+    const { selectedBox } = get();
+    if (selectedBox === undefined) {
+      return;
+    }
+    set(({ currentWord }) => ({
+      currentWord: setCharAt(currentWord, selectedBox, key),
+    }));
+  },
 
   setStarterWord: (word) =>
     set(({ score }) => ({ words: [word], score: score + 1 })),
 
   handleKeyPress: (key) => {
-    console.log("handleKeyPress everywhere!");
     set(({ currentWord, error }) => ({
       currentWord: updateWord(currentWord, key),
       error: key === "Backspace" ? undefined : error,

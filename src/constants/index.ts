@@ -7,11 +7,12 @@ export const BOX_BACKGROUND_COLOR = "#2e5e5f";
 export const BOX_TEXT_COLOR = "#e4e9f7";
 export const BACKGROUND_COLOR = "#273744";
 export const TEXT_COLOR = "#e4e9f7";
+export const BOX_SELECTED = "white";
 
 export enum MESSAGES {
   FIRST_WORD = "Start by typing a 5 letter word!",
-  SECOND_WORD = "Now input another 5 letter word, but you can only change 1 letter!",
-  SECOND_WORD_FIRST_TIME = "Input another 5 letter word, but you can only change 1 letter!",
+  SECOND_WORD = "Now select a letter to replace and form a new word!",
+  SECOND_WORD_FIRST_TIME = "Select a letter to replace and form a new word!",
   THIRD_WORD = "You got it! Now keep going!",
   LOADING = "Checking 🧐",
 }

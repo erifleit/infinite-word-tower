@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   BORDER_RADIUS,
   LIGHT_RED,
@@ -6,10 +6,12 @@ import {
   RED,
   BOX_BACKGROUND_COLOR,
   BOX_TEXT_COLOR,
+  BOX_SELECTED,
 } from "../../constants";
 import { useRowAnimations } from "./useRowAnimations";
 import { isMobile } from "react-device-detect";
-import { useUIState } from "../../store";
+import { useGameStore, useUIState } from "../../store";
+import { useRow } from "./useRow";
 
 interface RowProps {
   rowIndex: number;
@@ -43,20 +45,20 @@ const style: Record<string, React.CSSProperties> = {
     borderColor: BOX_BACKGROUND_COLOR,
     backgroundColor: BOX_BACKGROUND_COLOR,
   },
+  selectedBox: {
+    borderColor: BOX_SELECTED,
+  },
 };
 
-export const Row = ({ disabled, value, hasError = false }: RowProps) => {
+export const Row = ({
+  disabled,
+  value,
+  hasError = false,
+  rowIndex,
+}: RowProps) => {
   const { shake, animate, hop } = useRowAnimations({ disabled, hasError });
-
-  const { keyboardVisible, setKeyboardVisible } = useUIState();
-
-  const rowValues = useMemo(
-    () =>
-      Array.from({ length: 5 }).map((_elem, index) => {
-        return value[index] || "";
-      }),
-    [value]
-  );
+  const { isNewRow, handleClickBox, rowValues } = useRow({ rowIndex, value });
+  const { selectedBox } = useGameStore();
 
   return (
     <div
@@ -68,34 +70,36 @@ export const Row = ({ disabled, value, hasError = false }: RowProps) => {
       }}
       className={shake ? "shake" : ""}
     >
-      {rowValues.map((val, index) => (
-        <div
-          className={hop ? `hop-effect-${index}` : ""}
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: MARGIN,
-          }}
-          key={index}
-        >
+      {rowValues.map((val, index) => {
+        const isSelectedBox = selectedBox === index && isNewRow;
+        return (
           <div
+            className={hop ? `hop-effect-${index}` : ""}
             style={{
-              ...style.inputStyle,
-              ...(hasError ? style.inputError : {}),
-              ...(disabled ? style.disabledInput : {}),
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: MARGIN,
             }}
-            className={animate ? "slide-in" : ""}
-            onClick={() => {
-              if (!disabled) {
-                setKeyboardVisible(!keyboardVisible);
-              }
-            }}
+            key={index}
           >
-            {val}
+            <div
+              style={{
+                ...style.inputStyle,
+                ...(hasError ? style.inputError : {}),
+                ...(disabled ? style.disabledInput : {}),
+                ...(isSelectedBox ? style.selectedBox : {}),
+              }}
+              className={animate ? "slide-in" : ""}
+              onClick={() => {
+                handleClickBox(index);
+              }}
+            >
+              {val}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

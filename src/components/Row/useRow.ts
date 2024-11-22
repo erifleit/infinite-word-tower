@@ -1,50 +1,41 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { isAlphabeticCharacter } from "../../utils";
+import { useGameStore, useUIState } from "../../store";
 
 type UseRow = {
-  onRowFilled: (word: string) => Promise<void>;
-  clearError: () => void;
+  rowIndex: number;
+  value: string;
 };
 
-export const useRow = ({ onRowFilled, clearError }: UseRow) => {
-  const [rowValues, setRowValues] = useState<string[]>(Array(5).fill(""));
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+export const useRow = ({ rowIndex, value }: UseRow) => {
+  const { words, currentWord, setSelectedBox } = useGameStore();
+  const { keyboardVisible, toggleKeyboard } = useUIState();
 
-  const handleChange = (value: string, index: number) => {
-    if (!isAlphabeticCharacter(value)) {
-      return;
+  const lastWord = useMemo(() => words[words.length - 1], [words]);
+
+  const handleClickBox = (index: number) => {
+    if (words.length > 0) {
+      setSelectedBox(index);
     }
-    const letter = value.toUpperCase();
-    const updatedValues = [...rowValues];
-    updatedValues[index] = letter;
-    setRowValues(updatedValues);
-
-    // Focus next input if the current one is filled
-    if (letter !== "" && index < 4) {
-      inputRefs.current[index + 1]?.focus();
-    }
-
-    // Check if the row is fully filled
-    if (updatedValues.every((val) => val !== "")) {
-      onRowFilled(updatedValues.join(""));
-    } else {
-      clearError();
+    if (!keyboardVisible) {
+      toggleKeyboard();
     }
   };
 
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    if (e.key === "Backspace" && index > 0 && rowValues[index] === "") {
-      inputRefs.current[index - 1]?.focus();
-    }
-  };
+  const rowValues = useMemo(
+    () =>
+      Array.from({ length: 5 }).map((_elem, index) => {
+        return value[index] || "";
+      }),
+    [value]
+  );
 
   return {
-    inputRefs,
+    lastWord,
+    lastWordIndex: words.length - 1,
+    isNewRow: words.length === rowIndex && rowIndex > 0,
+    currentWord,
+    handleClickBox,
     rowValues,
-    handleChange,
-    handleKeyDown,
   };
 };
